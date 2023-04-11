@@ -15,22 +15,26 @@ class OurJoinGroup extends StatefulWidget {
 }
 
 class _OurJoinGroupState extends State<OurJoinGroup> {
-
-
-  void joinGroup(BuildContext context,String groupId)async{
-    CurrenState currenState=Provider.of<CurrenState>(context,listen: false);
-    String returnString = await OurDatabase().joinGroup(groupId, currenState.getCurrentUser.uid,currenState.getCurrentUser.fullname);
-    if(returnString=="success"){
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>OurRoot(),), (route) => false);
-    }else{
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Invalid Group Link"),
-            duration: Duration(seconds: 2),)
-      );
+  void joinGroup(BuildContext context, String groupId) async {
+    CurrenState currenState = Provider.of<CurrenState>(context, listen: false);
+    String returnString = await OurDatabase().joinGroup(groupId,
+        currenState.getCurrentUser.uid, currenState.getCurrentUser.fullname);
+    if (returnString == "success") {
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => OurRoot(),
+          ),
+          (route) => false);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Invalid Group Link"),
+        duration: Duration(seconds: 2),
+      ));
     }
   }
 
-  TextEditingController groupIdController=TextEditingController();
+  TextEditingController groupIdController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +46,6 @@ class _OurJoinGroupState extends State<OurJoinGroup> {
               children: [BackButton()],
             ),
           ),
-
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -56,18 +59,24 @@ class _OurJoinGroupState extends State<OurJoinGroup> {
                           controller: groupIdController,
                           decoration: InputDecoration(
                               prefixIcon: Icon(Icons.group),
-                              hintText: "Group Id"
-                          ),
+                              hintText: "Group Id"),
                         ),
-                        SizedBox(height: 20,),
-                        RaisedButton(
-                          onPressed: (){
+                        SizedBox(
+                          height: 20,
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
                             joinGroup(context, groupIdController.text.trim());
                           },
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 100),
-                            child: Text("Join",style: TextStyle(color: Colors.white,
-                                fontWeight: FontWeight.bold,fontSize: 20.0),),
+                            child: Text(
+                              "Join",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20.0),
+                            ),
                           ),
                         )
                       ],

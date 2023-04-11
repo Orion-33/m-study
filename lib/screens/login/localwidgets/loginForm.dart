@@ -8,10 +8,7 @@ import 'package:provider/provider.dart';
 
 import '../../../widgets/ourContainer.dart';
 
-enum LoginType{
-  email,
-  google
-}
+enum LoginType { email, google }
 
 class OurLoginForm extends StatefulWidget {
   const OurLoginForm({Key? key}) : super(key: key);
@@ -23,126 +20,152 @@ class OurLoginForm extends StatefulWidget {
 class _OurLoginFormState extends State<OurLoginForm> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  bool _obscureText=true;
+  bool _obscureText = true;
 
-  void loginUser({required LoginType type, String? email,String? password,BuildContext? context})async{
-    CurrenState currenState = Provider.of<CurrenState>(context!,listen: false);
-    String returnString="";
-    try{
-
-      switch(type){
+  void loginUser(
+      {required LoginType type,
+      String? email,
+      String? password,
+      BuildContext? context}) async {
+    CurrenState currenState = Provider.of<CurrenState>(context!, listen: false);
+    String returnString = "";
+    try {
+      switch (type) {
         case LoginType.email:
-          returnString=await currenState.loginUser(email!, password!);
+          returnString = await currenState.loginUser(email!, password!);
           break;
         case LoginType.google:
-          returnString= await currenState.loginUserWithGoogle();
+          returnString = await currenState.loginUserWithGoogle();
           break;
         default:
       }
 
-      if(returnString=="success"){
-        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>OurRoot(),), (route) => false);
-      }else{
-        Scaffold.of(context).showSnackBar(
-            SnackBar(content: Text(returnString),
-              duration: Duration(seconds: 2),)
-        );
+      if (returnString == "success") {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => OurRoot(),
+            ),
+            (route) => false);
+      } else {
+        Scaffold.of(context).showSnackBar(SnackBar(
+          content: Text(returnString),
+          duration: Duration(seconds: 2),
+        ));
       }
-    }catch(e){
+    } catch (e) {
       print(e);
     }
   }
 
-  Widget googleButton(){
+  Widget googleButton() {
     return OutlinedButton(
         style: OutlinedButton.styleFrom(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(40)
-          ),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
           elevation: 0,
-
         ),
-        onPressed: (){
-          loginUser(type: LoginType.google,context: context);
+        onPressed: () {
+          loginUser(type: LoginType.google, context: context);
         },
         child: Padding(
-          padding:  EdgeInsets.fromLTRB(0, 10, 0, 10),
+          padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Image(image: AssetImage("assets/google_icon.png"),height: 25,),
+              Image(
+                image: AssetImage("assets/google_icon.png"),
+                height: 25,
+              ),
               Padding(
                 padding: EdgeInsets.only(left: 10),
-                child: Text("Sign in with Google",style:
-                TextStyle(fontSize: 20,color: Colors.grey),
+                child: Text(
+                  "Sign in with Google",
+                  style: TextStyle(fontSize: 20, color: Colors.grey),
                 ),
               )
             ],
           ),
-        )
-    );
+        ));
   }
-
 
   @override
   Widget build(BuildContext context) {
-    return OurContainer(child: Column(
-      children: [
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 20.0,horizontal: 8.0),
-          child: (
-              Text("Log In",style: TextStyle(color: Theme.of(context).secondaryHeaderColor,
-                  fontSize: 25,fontWeight: FontWeight.bold),)
+    return OurContainer(
+      child: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 8.0),
+            child: (Text(
+              "Log In",
+              style: TextStyle(
+                  color: Theme.of(context).secondaryHeaderColor,
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold),
+            )),
           ),
-
-        ),
-        TextFormField(
-          keyboardType: TextInputType.emailAddress,
-          controller: emailController,
-          textInputAction: TextInputAction.next,
-          decoration: InputDecoration(prefixIcon: Icon(Icons.alternate_email),
-              hintText: "Email"),
-        ),
-        SizedBox(height: 20,),
-        TextFormField(
-
-          controller: passwordController,
-          obscureText: _obscureText,
-          decoration: InputDecoration(prefixIcon: Icon(Icons.lock_outline),
-            hintText: "Password",
-            suffixIcon: GestureDetector(onTap: (){
-              setState((){
-                _obscureText=!_obscureText;
-              });
-            },
-              child: Icon(_obscureText?Icons.visibility:Icons.visibility_off),
+          TextFormField(
+            keyboardType: TextInputType.emailAddress,
+            controller: emailController,
+            textInputAction: TextInputAction.next,
+            decoration: InputDecoration(
+                prefixIcon: Icon(Icons.alternate_email), hintText: "Email"),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          TextFormField(
+            controller: passwordController,
+            obscureText: _obscureText,
+            decoration: InputDecoration(
+              prefixIcon: Icon(Icons.lock_outline),
+              hintText: "Password",
+              suffixIcon: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _obscureText = !_obscureText;
+                  });
+                },
+                child: Icon(
+                    _obscureText ? Icons.visibility : Icons.visibility_off),
+              ),
             ),
           ),
-
-        ),
-        SizedBox(height: 20,),
-        RaisedButton(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 100),
-            child: Text("Log In",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,
-                fontSize: 20),),
+          SizedBox(
+            height: 20,
           ),
-          onPressed: (){
-            loginUser(type: LoginType.email,email: emailController.text,password: passwordController.text,context: context);
-          },
-        ),
-        FlatButton(onPressed: (){
-          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>OurSignup()),);
-        },
-          child: Text("Don't have and account? Sign up"),
-          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        ),
-        googleButton()
-
-      ],
-    ),
-
+          ElevatedButton(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 100),
+              child: Text(
+                "Log In",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20),
+              ),
+            ),
+            onPressed: () {
+              loginUser(
+                  type: LoginType.email,
+                  email: emailController.text,
+                  password: passwordController.text,
+                  context: context);
+            },
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => OurSignup()),
+              );
+            },
+            child: Text("Don't have and account? Sign up"),
+            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          ),
+          googleButton()
+        ],
+      ),
     );
   }
 }

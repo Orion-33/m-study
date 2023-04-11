@@ -1,5 +1,4 @@
 import 'package:book_club/screens/signup/localwidgets/SignupForm.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class OurSignup extends StatelessWidget {
@@ -13,21 +12,20 @@ class OurSignup extends StatelessWidget {
         children: [
           Expanded(
               child: ListView(
-                padding: EdgeInsets.all(20.0),
+            padding: EdgeInsets.all(20.0),
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      BackButton(),
-                    ],
-                  ),
-                  SizedBox(height: 40,),
-                  OurSignUpForm()
-
-
+                  BackButton(),
                 ],
-              )
-          )
+              ),
+              SizedBox(
+                height: 40,
+              ),
+              OurSignUpForm()
+            ],
+          ))
         ],
       ),
     );

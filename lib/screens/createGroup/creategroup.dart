@@ -17,49 +17,60 @@ class OurCreateGroup extends StatefulWidget {
 }
 
 class _OurCreateGroupState extends State<OurCreateGroup> {
-
-  void goToAddBook(BuildContext context,String groupName)async{
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>BookTest(gid: groupName,onGroupCreation: true,)));
+  void goToAddBook(BuildContext context, String groupName) async {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => BookTest(
+                  gid: groupName,
+                  onGroupCreation: true,
+                )));
   }
 
-  TextEditingController groupNameController=TextEditingController();
+  TextEditingController groupNameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
           Padding(
-              padding: EdgeInsets.all(20.0),
+            padding: EdgeInsets.all(20.0),
             child: Row(
               children: [BackButton()],
             ),
           ),
-
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
-                    padding: EdgeInsets.all(20.0),
+                  padding: EdgeInsets.all(20.0),
                   child: OurContainer(
                     child: Column(
                       children: [
                         TextFormField(
                           controller: groupNameController,
                           decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.group),
-                            hintText: "Group Name"
-                          ),
+                              prefixIcon: Icon(Icons.group),
+                              hintText: "Group Name"),
                         ),
-                          SizedBox(height: 20,),
-                        RaisedButton(
-                            onPressed: (){
-                              goToAddBook(context, groupNameController.text.trim());
-                            },
+                        SizedBox(
+                          height: 20,
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            goToAddBook(
+                                context, groupNameController.text.trim());
+                          },
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 100),
-                            child: Text("Create",style: TextStyle(color: Colors.white,
-                            fontWeight: FontWeight.bold,fontSize: 20.0),),
+                            child: Text(
+                              "Create",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20.0),
+                            ),
                           ),
                         )
                       ],
